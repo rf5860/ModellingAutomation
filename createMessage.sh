@@ -3,7 +3,7 @@
 if [[ $# -lt 3 || $# -gt 5 ]]; then
     # Usage Instructions
     echo "Usage: createMessage <name> <id> <type> <message> <package>";
-    echo "E.g. createMessage M8MWP MSTiNotClosed I0009 Information \"MSTi <{}> was not closed.\"";
+    echo "E.g. createMessage MSTiNotClosed I0009 Information \"MSTi <{}> was not closed.\" M8MWP";
     exit 1;
 else
     if [ $# -eq 4 ]; then
