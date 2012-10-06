@@ -1,25 +1,4 @@
 #!/bin/sh
-# Parse the arguments
-if [[ $# -lt 3 || $# -gt 5 ]]; then
-    # Usage Instructions
-    echo "Usage: createMessage <name> <id> <type> <message> <package>";
-    echo "E.g. createMessage MSTiNotClosed I0009 Information \"MSTi <{}> was not closed.\" M8MWP";
-    exit 1;
-else
-    if [ $# -eq 4 ]; then
-	# Provide a default package
-	package="M8MWP";
-    else
-	package=$5;
-    fi
-    name=$1;
-    id=$2;
-    type=$3;
-    # Escape '<' entities
-    message=$(echo -e ${4//</\\&lt;});
-fi
-# Model fragment used for errors - WARNING: Not vigorously tested when errors /aren't/ in their own fragment.
-errorClass=el_model/UMLModel/Module-8MWP/003.Design/002.Service/001.Errors.efx
 # Path to this script - should contain the following files:
 #                   o org.eclipse.emf.ecore.jar
 #                   o org.eclipse.emf.common.jar
@@ -30,6 +9,30 @@ uuid=$(java -cp "$scriptDir;$scriptDir/org.eclipse.emf.ecore.jar;$scriptDir/org.
 stereotypeUuid=$(java -cp "$scriptDir;$scriptDir/org.eclipse.emf.ecore.jar;$scriptDir/org.eclipse.emf.common.jar" GenerateUUID);
 xmiEnd="</xmi:XMI>";
 packageEnd="  </uml:Package>";
+# Parse the arguments
+if [[ $# -lt 3 || $# -gt 5 ]]; then
+    # Usage Instructions
+    echo "Usage: createMessage <name> <type> <message> [<id>] [<package>]";
+    echo "E.g. createMessage MSTiNotClosed Information \"MSTi <{}> was not closed.\" I0009 M8MWP";
+    exit 1;
+else
+    name=$1;
+    type=$2;
+    if [ $# -eq 3 ]; then
+	id=$("./$scriptDir/findNextId.sh" $type);
+	package="M8MWP";
+    elif [ $# -eq 4 ]; then
+	id=$4;
+	package="M8MWP";
+    else
+	id=$4;
+	package=$5;
+    fi
+    # Escape '<' entities
+    message=$(echo -e ${3//</\\&lt;});
+fi
+# Model fragment used for errors - WARNING: Not vigorously tested when errors /aren't/ in their own fragment.
+errorClass=el_model/UMLModel/Module-8MWP/003.Design/002.Service/001.Errors.efx
 # The new elements to insert.
 newPackagedElement="    <packagedElement xmi:type=\"uml:Class\" xmi:id=\"${uuid}\" name=\"${package}_${id}_${name}\"/>";
 newStereotypeElement="  <Ellipse:${type} xmi:id=\"${stereotypeUuid}\" message=\"${message}\" id=\"${package}.${id}\" base_Class=\"${uuid}\"/>";
