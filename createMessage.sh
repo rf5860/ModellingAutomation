@@ -1,3 +1,4 @@
+
 #!/bin/sh
 # Path to this script - should contain the following files:
 #                   o org.eclipse.emf.ecore.jar
@@ -13,7 +14,7 @@ packageEnd="  </uml:Package>";
 if [[ $# -lt 3 || $# -gt 5 ]]; then
     # Usage Instructions
     echo "Usage: createMessage <name> <type> <message> [<id>] [<package>]";
-    echo "E.g. createMessage MSTiNotClosed Information \"MSTi <{}> was not closed.\" I0009 M8MWP";
+    echo "E.g. createMessage MSTiNotClosed Information \"MSTi <{0}> was not closed.\" I0009 M8MWP";
     exit 1;
 else
     name=$1;
