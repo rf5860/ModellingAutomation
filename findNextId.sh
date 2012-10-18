@@ -24,11 +24,11 @@ ids=( $(grep -i Ellipse:$type $errorClass|grep id) );
 lastId=$(for id in "${ids[@]}"
 do
     # Only match if item is in the desired package.
-    if [[ $id == *$package* ]]; then
+    if [[ $id == *${package}.${type:0:1}* ]]; then
 	# Extract the id from the current line.
 	idStartPosition=$(expr $(awk -v a=$id -v b=" id=" 'BEGIN{print index(a,b)}') + 10);
 	echo ${id:idStartPosition:5};
     fi
 done|sort|tail -1);
-nextIdNumber=$(printf %04d $(expr ${lastId:1} + 1));
+nextidnumber=$(printf %04d $(expr ${lastId:1} + 1));
 echo ${type:0:1}$nextIdNumber;
