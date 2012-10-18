@@ -30,5 +30,5 @@ do
 	echo ${id:idStartPosition:5};
     fi
 done|sort|tail -1);
-nextidnumber=$(printf %04d $(expr ${lastId:1} + 1));
+nextIdNumber=$(printf %04d $(expr ${lastId:1} + 1));
 echo ${type:0:1}$nextIdNumber;
